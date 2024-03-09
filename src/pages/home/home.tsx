@@ -28,6 +28,7 @@ import {
 
 import { useAuth } from '../../context';
 import { useCallback } from 'react';
+import { Editor } from '../../components';
 
 export const Home = () => {
   const { logout, user } = useAuth();
@@ -48,6 +49,11 @@ export const Home = () => {
         collapsed: { mobile: !opened }
       }}
       padding='md'
+      style={{
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden'
+      }}
     >
       <Burger opened={opened} onClick={toggle} hiddenFrom='sm' size='sm' />
       <AppShell.Navbar
@@ -193,7 +199,9 @@ export const Home = () => {
         </Flex>
       </AppShell.Navbar>
 
-      <AppShell.Main>Main</AppShell.Main>
+      <AppShell.Main style={{ height: '100%' }}>
+        <Editor />
+      </AppShell.Main>
     </AppShell>
   );
 };
