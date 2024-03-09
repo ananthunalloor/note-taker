@@ -23,8 +23,10 @@
     "filetypes"
   ],
   "words": [
+    "eventsource",
     "mantine",
     "nonblock",
+    "pocketbase",
     "tiptap"
   ],
   "ignoreWords": [],
