@@ -17,4 +17,4 @@ export const logoutUser = () => {
 export const isUserAuthenticated = () => pb.authStore.isValid || false;
 
 export const authStore = pb.authStore;
-export const backendHealthCheck = await pb.health.check();
+export const backendHealthCheck = pb.health.check();
