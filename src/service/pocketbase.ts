@@ -2,7 +2,7 @@ import PocketBase from 'pocketbase';
 
 import { BaseAuth } from '../types';
 
-const baseURl = 'http://localhost:3000/api/v1/';
+const baseURl = import.meta.env.VITE_API_BASE_URL;
 export const pb = new PocketBase(baseURl);
 
 export const authenticateUser = ({ username, password }: BaseAuth) => {
