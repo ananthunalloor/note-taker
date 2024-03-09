@@ -27,6 +27,7 @@
     "mantine",
     "nonblock",
     "pocketbase",
+    "tabler",
     "tiptap"
   ],
   "ignoreWords": [],
