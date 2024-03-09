@@ -1,3 +1,75 @@
+import { useCallback } from 'react';
+
+import { TextInput, Flex, Button, Group, PasswordInput } from '@mantine/core';
+import { useForm } from '@mantine/form';
+import { useNavigate } from 'react-router-dom';
+
+import { BaseAuth } from '../../types';
+import { authenticateUser } from '../../service';
+
 export const Login = () => {
-  return <div>Login</div>;
+  const navigate = useNavigate();
+
+  const { getInputProps, onSubmit } = useForm<BaseAuth>({
+    initialValues: {
+      username: '',
+      password: ''
+    },
+
+    validate: {
+      username: (value) => (value.length <= 3 ? 'Username is too short' : null),
+      password: (value) => (value.length >= 8 ? null : 'Password is too short')
+    }
+  });
+
+  const onSubmitHandler = useCallback(
+    async (values: BaseAuth) => {
+      await authenticateUser(values).then(() => navigate('/'));
+    },
+    [authenticateUser]
+  );
+
+  return (
+    <Flex
+      style={{
+        height: '100%',
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}
+    >
+      <form onSubmit={onSubmit(onSubmitHandler)}>
+        <Flex
+          direction='column'
+          style={{
+            width: 340,
+            gap: 12
+          }}
+        >
+          <TextInput
+            withAsterisk
+            label='Username'
+            type='username'
+            placeholder='username'
+            {...getInputProps('username')}
+          />
+          <PasswordInput
+            withAsterisk
+            label='Password'
+            type='password'
+            placeholder='your password'
+            {...getInputProps('password')}
+          />
+
+          <Group
+            style={{
+              justifyContent: 'flex-end'
+            }}
+          >
+            <Button type='submit'>Login</Button>
+          </Group>
+        </Flex>
+      </form>
+    </Flex>
+  );
 };

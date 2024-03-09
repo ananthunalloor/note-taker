@@ -1,24 +1,31 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Box } from '@mantine/core';
 
 import { NotFound } from './not-found/not-found';
 import { Login } from './login/login';
 import { Home } from './home/home';
 
+import { AuthRequired } from '../components';
+
 export const NoteTaker = () => {
-  const isAuthenticated = true;
   return (
-    <BrowserRouter future={{ v7_startTransition: true }}>
-      {isAuthenticated ? (
+    <Box
+      style={{
+        height: '100vh',
+        width: '100vw',
+        padding: 0,
+        margin: 0
+      }}
+    >
+      <BrowserRouter future={{ v7_startTransition: true }}>
         <Routes>
-          <Route path='/' element={<Home />} />
+          <Route element={<AuthRequired />}>
+            <Route path='/' element={<Home />} />
+          </Route>
           <Route path='/login' element={<Login />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
-      ) : (
-        <Routes>
-          <Route path='*' element={<Login />} />
-        </Routes>
-      )}
-    </BrowserRouter>
+      </BrowserRouter>
+    </Box>
   );
 };
