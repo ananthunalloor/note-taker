@@ -5,7 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import { enableMockServiceWorker } from './mocks/browser';
-import { AppEntry } from './pages/app';
+import { NoteTaker } from './pages/app';
 
 import '@mantine/core/styles.css';
 import '@mantine/tiptap/styles.css';
@@ -17,7 +17,7 @@ enableMockServiceWorker().then(() =>
       <MantineProvider>
         <Notifications />
         <ModalsProvider>
-          <AppEntry />
+          <NoteTaker />
         </ModalsProvider>
       </MantineProvider>
     </React.StrictMode>
