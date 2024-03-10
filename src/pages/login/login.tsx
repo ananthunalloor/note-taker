@@ -77,7 +77,7 @@ export const Login = () => {
             withAsterisk
             label='Password'
             type='password'
-            placeholder='your password'
+            placeholder='password'
             {...getInputProps('password')}
           />
 

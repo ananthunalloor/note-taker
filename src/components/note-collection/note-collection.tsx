@@ -1,7 +1,9 @@
 import { ActionIcon, Flex, NavLink, Tooltip, rem, Text } from '@mantine/core';
 import { IconNote, IconPlus } from '@tabler/icons-react';
+import { getAllNotes } from '../../service';
 
 export const NoteCollection = () => {
+  const { data } = getAllNotes();
   return (
     <Flex
       direction='column'
@@ -21,26 +23,18 @@ export const NoteCollection = () => {
         </Tooltip>
       </Flex>
       <Flex direction='column' style={{ flexGrow: 1, overflowY: 'auto' }}>
-        <NavLink
-          href='#3449032492'
-          style={{
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden'
-          }}
-          label='With icon this is along label this should be long enough to wrap and truncate'
-          leftSection={<IconNote size='1rem' stroke={1.5} />}
-        />
-        <NavLink
-          href='#3449032492'
-          label='With icon'
-          leftSection={<IconNote size='1rem' stroke={1.5} />}
-        />
-        <NavLink
-          href='#3449032492'
-          label='With icon'
-          leftSection={<IconNote size='1rem' stroke={1.5} />}
-        />
+        {data?.map((note) => (
+          <NavLink
+            href={`#${note.id}`}
+            style={{
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden'
+            }}
+            label={note.title}
+            leftSection={<IconNote size='1rem' stroke={1.5} />}
+          />
+        ))}
       </Flex>
     </Flex>
   );

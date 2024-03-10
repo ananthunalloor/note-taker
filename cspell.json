@@ -28,6 +28,7 @@
     "nonblock",
     "pocketbase",
     "tabler",
+    "tanstack",
     "tiptap"
   ],
   "ignoreWords": [],
