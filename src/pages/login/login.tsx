@@ -4,8 +4,9 @@ import { TextInput, Flex, Button, Group, PasswordInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useNavigate } from 'react-router-dom';
 
-import { BaseAuth } from '../../types';
+import { BaseAuth, Error } from '../../types';
 import { authenticateUser } from '../../service';
+import { notifications } from '@mantine/notifications';
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -24,7 +25,26 @@ export const Login = () => {
 
   const onSubmitHandler = useCallback(
     async (values: BaseAuth) => {
-      await authenticateUser(values).then(() => navigate('/'));
+      await authenticateUser(values)
+        .then(() => {
+          navigate('/');
+          notifications.show({
+            title: 'Login Successful',
+            message: 'You have successfully logged in',
+            color: 'teal',
+            icon: null,
+            autoClose: 3000
+          });
+        })
+        .catch((error: Error) => {
+          notifications.show({
+            title: 'Login Failed',
+            message: error.message,
+            color: 'red',
+            icon: null,
+            autoClose: 3000
+          });
+        });
     },
     [authenticateUser]
   );

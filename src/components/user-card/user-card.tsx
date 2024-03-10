@@ -4,6 +4,7 @@ import { ActionIcon, Avatar, Flex, Group, Menu, rem, Text } from '@mantine/core'
 import { IconChevronDown, IconLogout } from '@tabler/icons-react';
 
 import { useAuth } from '../../context';
+import { notifications } from '@mantine/notifications';
 
 export const UserCard = () => {
   const { logout, user } = useAuth();
@@ -12,6 +13,13 @@ export const UserCard = () => {
   const onLogout = useCallback(() => {
     logout();
     navigate('/login');
+    notifications.show({
+      title: 'Logout Successful',
+      message: 'You have successfully logged out',
+      color: 'teal',
+      icon: null,
+      autoClose: 3000
+    });
   }, [logout, navigate]);
 
   return (
