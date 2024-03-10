@@ -17,6 +17,9 @@ export const Editor = () => {
         height: '100%',
         overflow: 'hidden'
       }}
+      styles={{
+        content: { width: '100%', height: '100%' }
+      }}
     >
       <RichTextEditor.Toolbar sticky>
         <RichTextEditor.ControlsGroup>

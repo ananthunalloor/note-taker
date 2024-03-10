@@ -4,8 +4,9 @@ import { Box } from '@mantine/core';
 import { NotFound } from './not-found/not-found';
 import { Login } from './login/login';
 import { Home } from './home/home';
-
 import { AuthRequired } from '../components';
+
+import '../assets/css/index.css';
 
 export const NoteTaker = () => {
   return (
