@@ -33,3 +33,5 @@ export type Note = {
   description: string;
   body: string;
 };
+
+export type CreateNote = Pick<Note, 'user_id' | 'notebook_id' | 'title' | 'description'>;

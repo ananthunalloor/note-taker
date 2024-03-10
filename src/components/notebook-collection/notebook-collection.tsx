@@ -25,6 +25,7 @@ export const NotebookCollection = () => {
       <Flex direction='column' style={{ flexGrow: 1, overflowY: 'auto' }}>
         {data?.map((notebook) => (
           <NavLink
+            key={notebook.id}
             href={`#${notebook.id}`}
             style={{
               textOverflow: 'ellipsis',
