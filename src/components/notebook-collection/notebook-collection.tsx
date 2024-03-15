@@ -1,9 +1,20 @@
 import { ActionIcon, Flex, NavLink, Tooltip, rem, Text } from '@mantine/core';
 import { IconFilePlus, IconNotebook } from '@tabler/icons-react';
 import { getAllNotebooks } from '../../service';
+import { useCallback, MouseEvent } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const NotebookCollection = () => {
   const { data } = getAllNotebooks();
+  const navigate = useNavigate();
+  const { notebookId } = useParams<{ notebookId: string }>();
+
+  const handleOnClick = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
+    navigate(`/${event.currentTarget.dataset.notebook}`, {
+      replace: true,
+      state: { notebookId }
+    });
+  }, []);
   return (
     <Flex
       direction='column'
@@ -26,7 +37,8 @@ export const NotebookCollection = () => {
         {data?.map((notebook) => (
           <NavLink
             key={notebook.id}
-            href={`#${notebook.id}`}
+            data-notebook={notebook.id}
+            onClick={handleOnClick}
             style={{
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap',
@@ -34,6 +46,7 @@ export const NotebookCollection = () => {
             }}
             label={notebook.name}
             leftSection={<IconNotebook size='1rem' stroke={1.5} />}
+            active={notebook.id === notebookId}
           />
         ))}
       </Flex>

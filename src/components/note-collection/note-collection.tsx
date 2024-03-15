@@ -1,15 +1,19 @@
 import { ActionIcon, Flex, NavLink, Tooltip, rem, Text, Modal, Button } from '@mantine/core';
 import { IconNote, IconPlus } from '@tabler/icons-react';
 import { getAllNotes } from '../../service';
-import { useCallback } from 'react';
+import { useCallback, MouseEvent } from 'react';
 import { useDisclosure } from '@mantine/hooks';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // import { useForm } from '@mantine/form';
 // import { CreateNote } from '../../types';
 // import { useAuth } from '../../context';
 
 export const NoteCollection = () => {
   // const { user } = useAuth()
-  const { data, refetch } = getAllNotes();
+  const { notebookId, noteId } = useParams<{ notebookId: string; noteId: string }>();
+  const { data, refetch } = getAllNotes(notebookId);
+  const navigate = useNavigate();
+  let location = useLocation();
 
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -26,12 +30,19 @@ export const NoteCollection = () => {
   //     description: (value) => (value.length >= 8 ? null : 'Password is too short')
   //   }
   // });
-
+  // console.log(noteId);
   const createNote = useCallback(() => {
     console.log('create note');
     close();
     refetch();
   }, [close]);
+
+  const handleOnClick = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
+    navigate(`/${event.currentTarget.dataset.note}`);
+    console.log(location);
+  }, []);
+
+  console.log(notebookId);
 
   return (
     <>
@@ -56,7 +67,8 @@ export const NoteCollection = () => {
           {data?.map((note) => (
             <NavLink
               key={note.id}
-              href={`#${note.id}`}
+              data-note={note.id}
+              onClick={handleOnClick}
               style={{
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
@@ -64,6 +76,7 @@ export const NoteCollection = () => {
               }}
               label={note.title}
               leftSection={<IconNote size='1rem' stroke={1.5} />}
+              active={note.id === noteId}
             />
           ))}
         </Flex>

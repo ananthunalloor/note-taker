@@ -33,15 +33,20 @@ export const getAllNotebooks = () => {
   return notebookQuery;
 };
 
-export const getAllNotes = () => {
-  const getNotes = async (): Promise<Note[]> =>
+export const getAllNotes = (notebook_id?: string) => {
+  console.log('notebook_id', notebook_id);
+  const getNotes = async (notebook_id?: string): Promise<Note[]> =>
     await pb.collection('Notes').getFullList({
-      sort: 'updated'
+      sort: 'updated',
+      query: {
+        notebook_id
+      }
     });
 
   const noteQuery = useQuery<unknown, Error, Note[], string[]>({
-    queryKey: ['notes'],
-    queryFn: getNotes
+    queryKey: ['notes', `notes-${notebook_id}`],
+    queryFn: () => getNotes(notebook_id),
+    enabled: !!notebook_id
   });
   return noteQuery;
 };
