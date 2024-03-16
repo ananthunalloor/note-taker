@@ -31,8 +31,11 @@ export type Note = {
   notebook_id: string;
   title: string;
   description: string;
-  body: string;
+  body?: string;
 };
 
 export type CreateNote = Pick<Note, 'user_id' | 'notebook_id' | 'title' | 'description'>;
 export type CreateNotebook = Pick<Notebook, 'user_id' | 'name'>;
+
+export type UpdateNote = Pick<Note, 'title' | 'description' | 'body' | 'user_id' | 'notebook_id'>;
+export type UpdateNotebook = Pick<Notebook, 'name' | 'user_id'>;

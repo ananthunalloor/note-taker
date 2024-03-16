@@ -3,10 +3,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ActionIcon, Flex, NavLink, Tooltip, rem, Text } from '@mantine/core';
 import { IconFilePlus, IconNotebook } from '@tabler/icons-react';
 
-import { getAllNotebooks } from '../../service';
+import { useGetAllNotebooks } from '../../service';
 
 export const NotebookCollection = () => {
-  const { data } = getAllNotebooks();
+  const { data } = useGetAllNotebooks();
   const navigate = useNavigate();
   const { notebookId } = useParams<{ notebookId: string }>();
 

@@ -19,14 +19,14 @@ import { useForm } from '@mantine/form';
 
 import { useAuth } from '../../context';
 import { CreateNote } from '../../types';
-import { getAllNotes, useCreateNote } from '../../service';
+import { useGetAllNotes, useCreateNote } from '../../service';
 
 export const NoteCollection = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { notebookId, noteId } = useParams<{ notebookId: string; noteId: string }>();
 
-  const { data, refetch } = getAllNotes(notebookId);
+  const { data, refetch } = useGetAllNotes(notebookId);
   const { mutate: createNote } = useCreateNote();
 
   const [opened, { open, close }] = useDisclosure(false);

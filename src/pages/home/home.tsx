@@ -43,7 +43,7 @@ export const Home = () => {
         <NoteCollection />
       </AppShell.Navbar>
       <AppShell.Main style={{ height: '100%' }}>
-        {notebookId && noteId && <Editor />}
+        {notebookId && noteId && <Editor noteId={noteId} />}
         {(!noteId || notebookId) && (
           <Flex
             style={{
