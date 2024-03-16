@@ -1,9 +1,12 @@
-import { AppShell, Burger, Divider } from '@mantine/core';
+import { useParams } from 'react-router-dom';
+import { AppShell, Burger, Divider, Flex, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
 import { Editor, NoteCollection, NoteSearch, NotebookCollection, UserCard } from '../../components';
 
 export const Home = () => {
+  const { notebookId, noteId } = useParams<{ notebookId: string; noteId: string }>();
+
   const [opened, { toggle }] = useDisclosure();
 
   return (
@@ -40,7 +43,20 @@ export const Home = () => {
         <NoteCollection />
       </AppShell.Navbar>
       <AppShell.Main style={{ height: '100%' }}>
-        <Editor />
+        {notebookId && noteId && <Editor />}
+        {(!noteId || notebookId) && (
+          <Flex
+            style={{
+              height: '100%',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <Text size='sm' c='dimmed'>
+              Select a Notebook and a Note to view or edit
+            </Text>
+          </Flex>
+        )}
       </AppShell.Main>
     </AppShell>
   );
