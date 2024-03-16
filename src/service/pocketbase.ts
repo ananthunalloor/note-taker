@@ -12,7 +12,6 @@ export const authenticateUser = ({ username, password }: BaseAuth) => {
 
 export const authRefresh = () => pb.collection('users').authRefresh();
 export const logoutUser = () => {
-  console.log('logout called');
   pb.authStore.clear();
 };
 export const isUserAuthenticated = () => pb.authStore.isValid || false;
@@ -34,7 +33,6 @@ export const getAllNotebooks = () => {
 };
 
 export const getAllNotes = (notebook_id?: string) => {
-  console.log('notebook_id', notebook_id);
   const getNotes = async (notebook_id?: string): Promise<Note[]> =>
     await pb.collection('Notes').getFullList({
       sort: 'updated',
