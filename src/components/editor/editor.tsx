@@ -5,6 +5,7 @@ import StarterKit from '@tiptap/starter-kit';
 import { useDebouncedValue, useIdle } from '@mantine/hooks';
 
 import { useGetNote, useUpdateNote } from '../../service';
+import { Badge, Flex, Group } from '@mantine/core';
 
 export interface EditorProps {
   noteId: string;
@@ -12,7 +13,7 @@ export interface EditorProps {
 
 export const Editor = ({ noteId }: EditorProps) => {
   const { data: note, isFetching } = useGetNote(noteId);
-  const { mutate: updateNote } = useUpdateNote(noteId);
+  const { mutate: updateNote, isError, isSuccess, isPending } = useUpdateNote(noteId);
 
   const [content, setContent] = useState<string | undefined>(note?.body || '');
   const [debounced] = useDebouncedValue(content, 2000);
@@ -66,6 +67,37 @@ export const Editor = ({ noteId }: EditorProps) => {
         content: { width: '100%', height: '100%' }
       }}
     >
+      <Group
+        style={{
+          position: 'absolute',
+          top: 10,
+          right: 10,
+          zIndex: 2
+        }}
+      >
+        <Flex style={{ gap: 2 }}>
+          {isError && (
+            <Badge color='red' size='xs' radius='sm'>
+              Error
+            </Badge>
+          )}
+          {isFetching && (
+            <Badge color='blue' size='xs' radius='sm'>
+              Fetching
+            </Badge>
+          )}
+          {isSuccess && (
+            <Badge color='teal' size='xs' radius='sm'>
+              Saved
+            </Badge>
+          )}
+          {isPending && (
+            <Badge color='yellow' size='xs' radius='sm'>
+              Saving
+            </Badge>
+          )}
+        </Flex>
+      </Group>
       <RichTextEditor.Toolbar sticky>
         <RichTextEditor.ControlsGroup>
           <RichTextEditor.Bold />
