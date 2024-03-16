@@ -14,10 +14,10 @@ export type Data = {};
 export type Notebook = {
   collectionId: string;
   collectionName: string;
-  created: Date;
+  created: string;
   id: string;
   name: string;
-  updated: Date;
+  updated: string;
   user_id: string;
 };
 
@@ -25,8 +25,8 @@ export type Note = {
   id: string;
   collectionId: string;
   collectionName: string;
-  created: Date;
-  updated: Date;
+  created: string;
+  updated: string;
   user_id: string;
   notebook_id: string;
   title: string;

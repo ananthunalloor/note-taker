@@ -48,6 +48,7 @@ export const NotebookCollection = () => {
             label={notebook.name}
             leftSection={<IconNotebook size='1rem' stroke={1.5} />}
             active={notebook.id === notebookId}
+            description={new Date(notebook?.updated)?.toLocaleString()}
           />
         ))}
       </Flex>

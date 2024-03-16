@@ -139,6 +139,7 @@ export const NoteCollection = () => {
               label={note.title}
               leftSection={<IconNote size='1rem' stroke={1.5} />}
               active={note.id === noteId}
+              description={note.description}
             />
           ))}
         </Flex>
