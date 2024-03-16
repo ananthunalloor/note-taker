@@ -1,8 +1,9 @@
-import { ActionIcon, Flex, NavLink, Tooltip, rem, Text } from '@mantine/core';
-import { IconFilePlus, IconNotebook } from '@tabler/icons-react';
-import { getAllNotebooks } from '../../service';
 import { useCallback, MouseEvent } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { ActionIcon, Flex, NavLink, Tooltip, rem, Text } from '@mantine/core';
+import { IconFilePlus, IconNotebook } from '@tabler/icons-react';
+
+import { getAllNotebooks } from '../../service';
 
 export const NotebookCollection = () => {
   const { data } = getAllNotebooks();

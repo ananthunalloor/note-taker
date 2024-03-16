@@ -1,12 +1,12 @@
 import { useCallback } from 'react';
 
+import { useNavigate } from 'react-router-dom';
 import { TextInput, Flex, Button, Group, PasswordInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { useNavigate } from 'react-router-dom';
+import { notifications } from '@mantine/notifications';
 
 import { BaseAuth, Error } from '../../types';
 import { authenticateUser } from '../../service';
-import { notifications } from '@mantine/notifications';
 
 export const Login = () => {
   const navigate = useNavigate();

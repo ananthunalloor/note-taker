@@ -1,40 +1,63 @@
-import { ActionIcon, Flex, NavLink, Tooltip, rem, Text, Modal, Button } from '@mantine/core';
-import { IconNote, IconPlus } from '@tabler/icons-react';
-import { getAllNotes } from '../../service';
 import { useCallback, MouseEvent } from 'react';
-import { useDisclosure } from '@mantine/hooks';
 import { useNavigate, useParams } from 'react-router-dom';
-// import { useForm } from '@mantine/form';
-// import { CreateNote } from '../../types';
-// import { useAuth } from '../../context';
+import { IconNote, IconPlus } from '@tabler/icons-react';
+import {
+  ActionIcon,
+  Flex,
+  NavLink,
+  Tooltip,
+  rem,
+  Text,
+  Modal,
+  Button,
+  TextInput,
+  Group
+} from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { useForm } from '@mantine/form';
+
+import { useAuth } from '../../context';
+import { CreateNote } from '../../types';
+import { getAllNotes } from '../../service';
 
 export const NoteCollection = () => {
-  // const { user } = useAuth()
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
   const { notebookId, noteId } = useParams<{ notebookId: string; noteId: string }>();
   const { data, refetch } = getAllNotes(notebookId);
-  const navigate = useNavigate();
 
   const [opened, { open, close }] = useDisclosure(false);
 
-  // const { getInputProps, onSubmit } = useForm<CreateNote>({
-  //   initialValues: {
-  //     title: '',
-  //     description: '',
-  //     notebook_id: '',
-  //     user_id: user && user.id
-  //   },
+  const { getInputProps, onSubmit, reset } = useForm<CreateNote>({
+    initialValues: {
+      title: '',
+      description: '',
+      notebook_id: notebookId || '',
+      user_id: user && user.id
+    },
 
-  //   validate: {
-  //     title: (value) => (value.length <= 3 ? 'Title is too short' : null),
-  //     description: (value) => (value.length >= 8 ? null : 'Password is too short')
-  //   }
-  // });
-  // console.log(noteId);
-  const createNote = useCallback(() => {
-    console.log('create note');
-    close();
-    refetch();
-  }, [close]);
+    validate: {
+      title: (value) =>
+        value.length >= 3 && value.length <= 20
+          ? null
+          : 'Title should be between 3 and 20 characters',
+      description: (value) =>
+        value.length >= 3 && value.length <= 50
+          ? null
+          : 'Description should be between 3 and 50 characters'
+    }
+  });
+
+  const createNote = useCallback(
+    async (values: CreateNote) => {
+      console.log('create note', { ...values, notebook_id: notebookId });
+      close();
+      reset();
+      refetch();
+    },
+    [close]
+  );
 
   const handleOnClick = useCallback(
     (event: MouseEvent<HTMLAnchorElement>) => {
@@ -56,8 +79,13 @@ export const NoteCollection = () => {
           <Text size='sm' fw={500} c='dimmed'>
             Notes
           </Text>
-          <Tooltip label='Add a Note'>
-            <ActionIcon variant='transparent' aria-label='Dropdown' onClick={open}>
+          <Tooltip label={!notebookId ? 'Select a Notebook' : 'Add a Note'}>
+            <ActionIcon
+              variant='transparent'
+              aria-label='Dropdown'
+              onClick={open}
+              disabled={!notebookId}
+            >
               <IconPlus style={{ width: rem(14), height: rem(14) }} stroke={1.5} />
             </ActionIcon>
           </Tooltip>
@@ -81,7 +109,45 @@ export const NoteCollection = () => {
         </Flex>
       </Flex>
       <Modal opened={opened} onClose={close} title='Create a Note'>
-        <Button onClick={createNote}>close</Button>
+        <form onSubmit={onSubmit(createNote)}>
+          <Flex
+            direction={'column'}
+            style={{
+              gap: 8
+            }}
+          >
+            <TextInput
+              withAsterisk
+              label='Title'
+              type='text'
+              placeholder='Note Title'
+              {...getInputProps('title')}
+              min={3}
+              max={20}
+            />
+            <TextInput
+              withAsterisk
+              label='Description'
+              type='text'
+              placeholder='Note Description'
+              {...getInputProps('description')}
+            />
+            <Group
+              style={{
+                justifyContent: 'flex-end'
+              }}
+            >
+              <Button
+                style={{
+                  marginTop: 6
+                }}
+                type='submit'
+              >
+                Create Note
+              </Button>
+            </Group>
+          </Flex>
+        </form>
       </Modal>
     </>
   );

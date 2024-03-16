@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Box, Loader } from '@mantine/core';
 
@@ -7,7 +8,6 @@ import { Home } from './home/home';
 import { AuthRequired } from '../components';
 
 import '../assets/css/index.css';
-import { Suspense } from 'react';
 
 export const NoteTaker = () => {
   return (

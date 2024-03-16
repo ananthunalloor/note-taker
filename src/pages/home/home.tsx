@@ -1,5 +1,6 @@
 import { AppShell, Burger, Divider } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+
 import { Editor, NoteCollection, NoteSearch, NotebookCollection, UserCard } from '../../components';
 
 export const Home = () => {
