@@ -35,3 +35,4 @@ export type Note = {
 };
 
 export type CreateNote = Pick<Note, 'user_id' | 'notebook_id' | 'title' | 'description'>;
+export type CreateNotebook = Pick<Notebook, 'user_id' | 'name'>;

@@ -1,7 +1,7 @@
 import PocketBase from 'pocketbase';
-
-import { BaseAuth, Notebook, Error, Note, CreateNote } from '../types';
 import { useMutation, useQuery } from '@tanstack/react-query';
+
+import { BaseAuth, Notebook, Error, Note, CreateNote, CreateNotebook } from '../types';
 
 const baseURl = import.meta.env.VITE_API_BASE_URL;
 export const pb = new PocketBase(baseURl);
@@ -49,12 +49,16 @@ export const getAllNotes = (notebook_id?: string) => {
   return noteQuery;
 };
 
-export const createNote = (data: CreateNote) => {
+export const useCreateNote = () => {
   const mutation = useMutation<Note, Error, CreateNote>({
-    mutationFn: async (data: CreateNote) => await pb.collection('Notes').create(data),
-    onError: () => console.log('error saving the item === '),
+    mutationFn: async (data: CreateNote) => await pb.collection('Notes').create(data)
+  });
+  return mutation;
+};
 
-    onSuccess: () => console.log('successful save of item ', data)
+export const useCreateNotebook = () => {
+  const mutation = useMutation<Notebook, Error, CreateNotebook>({
+    mutationFn: async (data: CreateNotebook) => await pb.collection('Notebook').create(data)
   });
   return mutation;
 };

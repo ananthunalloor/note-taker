@@ -14,18 +14,20 @@ import {
   Group
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
 import { useForm } from '@mantine/form';
 
 import { useAuth } from '../../context';
 import { CreateNote } from '../../types';
-import { getAllNotes } from '../../service';
+import { getAllNotes, useCreateNote } from '../../service';
 
 export const NoteCollection = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-
   const { notebookId, noteId } = useParams<{ notebookId: string; noteId: string }>();
+
   const { data, refetch } = getAllNotes(notebookId);
+  const { mutate: createNote } = useCreateNote();
 
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -39,22 +41,55 @@ export const NoteCollection = () => {
 
     validate: {
       title: (value) =>
-        value.length >= 3 && value.length <= 20
-          ? null
-          : 'Title should be between 3 and 20 characters',
-      description: (value) =>
         value.length >= 3 && value.length <= 50
           ? null
-          : 'Description should be between 3 and 50 characters'
+          : 'Title should be between 3 and 50 characters',
+      description: (value) =>
+        value.length >= 3 && value.length <= 100
+          ? null
+          : 'Description should be between 3 and 100 characters'
     }
   });
 
-  const createNote = useCallback(
+  const onCreateHandler = useCallback(
     async (values: CreateNote) => {
-      console.log('create note', { ...values, notebook_id: notebookId });
-      close();
-      reset();
-      refetch();
+      if (!user || !notebookId) {
+        notifications.show({
+          title: 'Missing User or Notebook',
+          message: 'Please select a notebook and try again',
+          color: 'red',
+          icon: null,
+          autoClose: 3000
+        });
+        return;
+      }
+      createNote(
+        { ...values, notebook_id: notebookId },
+        {
+          onSuccess: () => {
+            notifications.show({
+              title: 'Note Created',
+              message: 'You have successfully created a note',
+              color: 'teal',
+              icon: null,
+              autoClose: 3000
+            });
+            close();
+            reset();
+            refetch();
+          },
+
+          onError: (error) => {
+            notifications.show({
+              title: 'Note Creation Failed',
+              message: error.message,
+              color: 'red',
+              icon: null,
+              autoClose: 3000
+            });
+          }
+        }
+      );
     },
     [close]
   );
@@ -109,7 +144,7 @@ export const NoteCollection = () => {
         </Flex>
       </Flex>
       <Modal opened={opened} onClose={close} title='Create a Note'>
-        <form onSubmit={onSubmit(createNote)}>
+        <form onSubmit={onSubmit(onCreateHandler)}>
           <Flex
             direction={'column'}
             style={{
