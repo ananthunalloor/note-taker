@@ -22,10 +22,10 @@ export const NoteTaker = () => {
       <BrowserRouter future={{ v7_startTransition: true }}>
         <Suspense fallback={<Loader />} />
         <Routes>
-          <Route path='/' element={<AuthRequired />}>
-            <Route element={<Home />}>
-              <Route path=':notebookId' element={<Home />}>
-                <Route path=':noteId' element={<Home />} />
+          <Route element={<AuthRequired />}>
+            <Route path='/' element={<Home />}>
+              <Route path=':notebookId' element={null}>
+                <Route path=':noteId' element={null} />
               </Route>
             </Route>
           </Route>
