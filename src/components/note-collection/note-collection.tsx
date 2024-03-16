@@ -3,7 +3,7 @@ import { IconNote, IconPlus } from '@tabler/icons-react';
 import { getAllNotes } from '../../service';
 import { useCallback, MouseEvent } from 'react';
 import { useDisclosure } from '@mantine/hooks';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 // import { useForm } from '@mantine/form';
 // import { CreateNote } from '../../types';
 // import { useAuth } from '../../context';
@@ -13,7 +13,6 @@ export const NoteCollection = () => {
   const { notebookId, noteId } = useParams<{ notebookId: string; noteId: string }>();
   const { data, refetch } = getAllNotes(notebookId);
   const navigate = useNavigate();
-  let location = useLocation();
 
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -37,10 +36,12 @@ export const NoteCollection = () => {
     refetch();
   }, [close]);
 
-  const handleOnClick = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
-    navigate(`${notebookId}/${event.currentTarget.dataset.note}`);
-    console.log(location);
-  }, []);
+  const handleOnClick = useCallback(
+    (event: MouseEvent<HTMLAnchorElement>) => {
+      navigate(`${notebookId}/${event.currentTarget.dataset.note}`);
+    },
+    [navigate]
+  );
 
   return (
     <>
