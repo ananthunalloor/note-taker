@@ -2,9 +2,9 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ActionIcon, Avatar, Flex, Group, Menu, rem, Text } from '@mantine/core';
 import { IconChevronDown, IconLogout } from '@tabler/icons-react';
+import { notifications } from '@mantine/notifications';
 
 import { useAuth } from '../../context';
-import { notifications } from '@mantine/notifications';
 
 export const UserCard = () => {
   const { logout, user } = useAuth();
