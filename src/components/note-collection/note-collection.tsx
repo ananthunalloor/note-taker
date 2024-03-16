@@ -38,11 +38,9 @@ export const NoteCollection = () => {
   }, [close]);
 
   const handleOnClick = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
-    navigate(`/${event.currentTarget.dataset.note}`);
+    navigate(`${notebookId}/${event.currentTarget.dataset.note}`);
     console.log(location);
   }, []);
-
-  console.log(notebookId);
 
   return (
     <>

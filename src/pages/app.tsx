@@ -23,9 +23,10 @@ export const NoteTaker = () => {
         <Suspense fallback={<Loader />} />
         <Routes>
           <Route path='/' element={<AuthRequired />}>
-            <Route index element={<Home />} />
-            <Route path=':notebookId' element={<Home />}>
-              <Route path=':noteId' element={<Home />} />
+            <Route element={<Home />}>
+              <Route path=':notebookId' element={<Home />}>
+                <Route path=':noteId' element={<Home />} />
+              </Route>
             </Route>
           </Route>
           <Route path='/login' element={<Login />} />
