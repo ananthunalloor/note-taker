@@ -9,7 +9,8 @@ import {
   authStore,
   authenticateUser,
   isUserAuthenticated,
-  logoutUser
+  logoutUser,
+  pb
 } from '../service';
 
 export interface IAuthInterface {
@@ -22,8 +23,8 @@ export interface IAuthInterface {
 export const AuthContext = createContext<IAuthInterface>({} as IAuthInterface);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [token, setToken] = useState<string | null>(null);
-  const [user, setUser] = useState<AuthModel | null>(null);
+  const [token, setToken] = useState<string | null>(pb.authStore.token);
+  const [user, setUser] = useState<AuthModel | null>(pb.authStore.model);
 
   useEffect(() => {
     const handleChange = (token: string, user: AuthModel) => {
